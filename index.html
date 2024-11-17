@@ -1,50 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simple Input-Output Page</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin: 20px;
-    }
-    input, button, div {
-      margin: 10px 0;
-    }
-    input, button {
-      padding: 10px;
-      font-size: 16px;
-    }
-    #output {
-      font-weight: bold;
-      color: #333;
-    }
-  </style>
-</head>
-<body>
-  <h1>Simple Input-Output Page</h1>
-  <div>
-    <label for="inputField">Enter something:</label>
-    <input type="text" id="inputField" placeholder="Type here...">
-  </div>
-  <button onclick="displayOutput()">Submit</button>
-  <div id="output"></div>
-
-  <script>
-    function displayOutput() {
-      const inputField = document.getElementById('inputField');
-      const outputDiv = document.getElementById('output');
-      const userInput = inputField.value.trim();
-
-      if (userInput) {
-        outputDiv.textContent = `You entered: ${userInput}`;
-      } else {
-        outputDiv.textContent = 'Please enter something!';
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Character Energy Management</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
       }
-    }
-  </script>
-</body>
-</html>
+      .container {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      .column {
+        flex: 1;
+        text-align: center;
+      }
+      input,
+      button {
+        margin: 10px 0;
+        padding: 10px;
+        font-size: 16px;
+      }
+      #output,
+      #spendEnergyOutput {
+        margin-top: 20px;
+        font-weight: bold;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Character Attribute and Energy Management</h1>
+    <div class="container">
+      <!-- Column 1: Attribute Management -->
+      <div class="column">
+        <h2>Attributes</h2>
+        <div>
+          <label for="spellcastingModifier">Spellcasting Modifier:</label>
+          <input type="number" id="spellcastingModifier" placeholder="0" />
+        </div>
+        <div>
+          <label for="proficiencyBonus">Proficiency Level:</label>
+          <input type="number" id="proficiencyBonus" placeholder="0" />
+        </div>
+        <div>
+          <label for="constitutionModifier">Constitution Modifier:</label>
+          <input type="number" id="constitutionModifier" placeholder="0" />
+        </div>
+        <div>
+          <label for="maxEnergyLevel">Max Energy Level:</label>
+          <input type="number" id="maxEnergyLevel" placeholder="0" />
+        </div>
+        <div>
+          <label for="currentEnergyLevel">Current Energy Level:</label>
+          <input type="number" id="currentEnergyLevel" placeholder="0" />
+        </div>
+        <button id="submitButton">Calculate</button>
+        <div id="output"></div>
+      </div>
 
+      <!-- Column 2: Energy Management -->
+      <div class="column">
+        <h2>Spend Energy</h2>
+        <div>
+          <label for="spendEnergyInput">Spend Energy:</label>
+          <input
+            type="number"
+            id="spendEnergyInput"
+            placeholder="Enter energy to spend..."
+          />
+        </div>
+        <button id="spendEnergyButton">Spend</button>
+        <div id="spendEnergyOutput"></div>
+      </div>
+
+      <!-- Column 3: Stats -->
+      <div class="column">
+        <h2>Stats</h2>
+        Stress Limit
+        <div id="stressLimitDiv" data-value="">NA</div>
+        Energy Spent this turn
+        <div id="energySpentTurnDiv" data-value="0">0</div>
+        Strained Energy
+        <div id="strainedEnergyDiv" data-value="0">0</div>
+      </div>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
