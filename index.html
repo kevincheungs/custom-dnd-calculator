@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Input-Output Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+    input, button, div {
+      margin: 10px 0;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+    #output {
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Simple Input-Output Page</h1>
+  <div>
+    <label for="inputField">Enter something:</label>
+    <input type="text" id="inputField" placeholder="Type here...">
+  </div>
+  <button onclick="displayOutput()">Submit</button>
+  <div id="output"></div>
+
+  <script>
+    function displayOutput() {
+      const inputField = document.getElementById('inputField');
+      const outputDiv = document.getElementById('output');
+      const userInput = inputField.value.trim();
+
+      if (userInput) {
+        outputDiv.textContent = `You entered: ${userInput}`;
+      } else {
+        outputDiv.textContent = 'Please enter something!';
+      }
+    }
+  </script>
+</body>
+</html>
+
