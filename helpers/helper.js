@@ -25,8 +25,8 @@ export function updateEnergySpentTurn() {
     0
   );
 
-  const stressLimitDiv = document.getElementById("energySpentTurnDiv");
-  stressLimitDiv.textContent = totalEnergySpent;
+  const energySpentTurnDiv = document.getElementById("energySpentTurnDiv");
+  energySpentTurnDiv.textContent = totalEnergySpent;
 }
 
 export function calculateStrainedEnergy() {
@@ -50,7 +50,7 @@ export function addToEnergySpentHistory(energySpent) {
   energySpentHistoryDiv.textContent = JSON.stringify(energySpentHistory);
 }
 
-function getEnergySpentHistory() {
+export function getEnergySpentHistory() {
   const energySpentHistoryDiv = document.getElementById(
     "energySpentHistoryDiv"
   );
