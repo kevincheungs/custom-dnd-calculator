@@ -4,33 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Character Energy Management</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-      }
-      .container {
-        display: flex;
-        justify-content: space-between;
-        gap: 20px;
-      }
-      .column {
-        flex: 1;
-        text-align: center;
-      }
-      input,
-      button {
-        margin: 10px 0;
-        padding: 10px;
-        font-size: 16px;
-      }
-      #output,
-      #spendEnergyOutput {
-        margin-top: 20px;
-        font-weight: bold;
-        color: #333;
-      }
-    </style>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <h1>Character Attribute and Energy Management</h1>
@@ -58,7 +32,7 @@
           <label for="currentEnergyLevel">Current Energy Level:</label>
           <input type="number" id="currentEnergyLevel" placeholder="0" />
         </div>
-        <button id="submitButton">Calculate</button>
+        <button id="calculateButton">Calculate</button>
         <div id="output"></div>
       </div>
 
@@ -81,12 +55,23 @@
       <div class="column">
         <h2>Stats</h2>
         Stress Limit
-        <div id="stressLimitDiv" data-value="">NA</div>
-        Energy Spent this turn
-        <div id="energySpentTurnDiv" data-value="0">0</div>
+        <div id="stressLimitDiv">NA</div>
+        <br />
+        Total Energy Spent this turn
+        <div id="energySpentTurnDiv">0</div>
+        Energy Spent History
+        <div id="energySpentHistoryDiv">[]</div>
+        <br />
         Strained Energy
-        <div id="strainedEnergyDiv" data-value="0">0</div>
+        <div id="strainedEnergyDiv">0</div>
       </div>
+    </div>
+
+    <!-- Moar buttons -->
+
+    <div class="container">
+      <button id="nextTurn">Next Turn</button>
+      <button id="undoEnergySpend">Undo Energy Spend</button>
     </div>
 
     <script type="module" src="./main.js"></script>

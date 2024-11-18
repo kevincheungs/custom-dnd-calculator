@@ -1,0 +1,88 @@
+body {
+  font-family: "Cinzel", serif;
+  background: radial-gradient(circle, #1e1e2e, #121212);
+  color: #f3e9dc;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+}
+
+h1,
+h2 {
+  color: #ffe66d;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 20px;
+}
+
+.column {
+  flex: 1;
+  padding: 20px;
+  border: 2px solid #ffe66d;
+  border-radius: 15px;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+label {
+  display: block;
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+input {
+  width: calc(100% - 20px);
+  padding: 10px;
+  font-size: 1rem;
+  border: 2px solid #474747;
+  border-radius: 5px;
+  background: #222;
+  color: #ffe66d;
+}
+
+input:focus {
+  outline: none;
+  border-color: #ffae34;
+  box-shadow: 0 0 10px #ffae34;
+}
+
+button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #121212;
+  background: #ffe66d;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: #ffae34;
+  color: #000;
+  box-shadow: 0 0 20px #ffe66d;
+}
+
+#output,
+#spendEnergyOutput {
+  margin-top: 20px;
+  font-weight: bold;
+  color: #ffae34;
+  padding: 10px;
+}

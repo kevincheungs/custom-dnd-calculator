@@ -1,48 +1,28 @@
-// Import helper functions
 import { displayOutput } from "./utils.js";
 import {
   getAndUpdateStressLimit,
-  addToEnergySpentTurn,
+  updateEnergySpentTurn,
   calculateStrainedEnergy,
+  addToEnergySpentHistory,
 } from "./helpers/helper.js";
 
-// Attach event listener when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
-  const button = document.getElementById("submitButton");
-  button.addEventListener("click", handleSubmit);
+  const button = document.getElementById("calculateButton");
+  button.addEventListener("click", calculate);
 
   const spendEnergyButton = document.getElementById("spendEnergyButton");
   spendEnergyButton.addEventListener("click", spendEnergy);
 });
-function handleSubmit() {
-  getAndUpdateStressLimit();
-  // Get input values
-  const spellcastingModifier =
-    parseFloat(document.getElementById("spellcastingModifier").value) || 0;
-  const proficiencyBonus =
-    parseFloat(document.getElementById("proficiencyBonus").value) || 0;
-  const constitutionModifier =
-    parseFloat(document.getElementById("constitutionModifier").value) || 0;
-  const maxEnergyLevel =
-    parseFloat(document.getElementById("maxEnergyLevel").value) || 0;
-  const currentEnergyLevel =
-    parseFloat(document.getElementById("currentEnergyLevel").value) || 0;
 
-  // Perform calculations (example: calculate total power)
-  const totalPower =
-    spellcastingModifier + proficiencyBonus + constitutionModifier;
-
-  // Display results
+function calculate() {
   const result = `
-    Total Power: ${totalPower} <br>
+    Calculated stress Limit<br>
   `;
   displayOutput(result, "output");
+  getAndUpdateStressLimit();
 }
 
-// Handle spending energy
 function spendEnergy() {
-  getAndUpdateStressLimit();
-
   let currentEnergyLevel =
     parseFloat(document.getElementById("currentEnergyLevel").value) || 0;
   const spendEnergyInput =
@@ -54,13 +34,16 @@ function spendEnergy() {
       document.getElementById("currentEnergyLevel");
     currentEnergyLevelField.value = currentEnergyLevel;
 
-    addToEnergySpentTurn(spendEnergyInput);
-
     displayOutput(
-      `Energy spent: ${spendEnergyInput}<br>Remaining Energy: ${currentEnergyLevel}`,
+      `Energy spent: ${spendEnergyInput}<br>
+      Remaining Energy: ${currentEnergyLevel}`,
       "spendEnergyOutput"
     );
 
+    getAndUpdateStressLimit();
+
+    addToEnergySpentHistory(spendEnergyInput);
+    updateEnergySpentTurn();
     calculateStrainedEnergy();
   } else if (spendEnergyInput > currentEnergyLevel) {
     displayOutput("Not enough energy to spend!", "spendEnergyOutput");
