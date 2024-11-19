@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1>Character Attribute and Energy Management</h1>
     <div class="container">
       <!-- Column 1: Attribute Management -->
       <div class="column">
@@ -32,7 +31,7 @@
           <label for="currentEnergyLevel">Current Energy Level:</label>
           <input type="number" id="currentEnergyLevel" placeholder="0" />
         </div>
-        <button id="calculateButton">Calculate</button>
+        <button id="resetStressLimitButton">Reset Stress Limit</button>
         <div id="output"></div>
       </div>
 
@@ -53,7 +52,7 @@
 
       <!-- Column 3: Stats -->
       <div class="column">
-        <h2>Stats</h2>
+        <h2>Current Stats</h2>
         Stress Limit
         <div id="stressLimitDiv">NA</div>
         <br />
@@ -64,6 +63,22 @@
         <br />
         Strained Energy
         <div id="strainedEnergyDiv">0</div>
+
+        <h2>Modifiers</h2>
+        Stress Limit Mod
+        <div id="stressLimitModDiv">0</div>
+
+        <h2>Previous Turn Stats</h2>
+        Stress Limit (last turn)
+        <div id="prevStressLimitDiv">NA</div>
+        <br />
+        Total Energy Spent (last turn)
+        <div id="prevEnergySpentTurnDiv">0</div>
+        Energy Spent History (last turn)
+        <div id="prevEnergySpentHistoryDiv">[]</div>
+        <br />
+        Strained Energy (last turn)
+        <div id="prevStrainedEnergyDiv">0</div>
       </div>
     </div>
 

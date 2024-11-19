@@ -1,21 +1,28 @@
-export function getAndUpdateStressLimit() {
+export function calculateAndUpdateStressLimit() {
+  let stressLimit = calculateStressLimit();
+  updateStressLimit(stressLimit);
+}
+
+export function calculateStressLimit() {
   const spellcastingModifier =
-    parseFloat(document.getElementById("spellcastingModifier").value) || 0;
+    parseInt(document.getElementById("spellcastingModifier").value) || 0;
   const proficiencyBonus =
-    parseFloat(document.getElementById("proficiencyBonus").value) || 0;
+    parseInt(document.getElementById("proficiencyBonus").value) || 0;
   const constitutionModifier =
-    parseFloat(document.getElementById("constitutionModifier").value) || 0;
+    parseInt(document.getElementById("constitutionModifier").value) || 0;
 
   let stressLimit =
     1 + spellcastingModifier + constitutionModifier + proficiencyBonus;
 
-  updateStressLimit(stressLimit);
   return stressLimit;
 }
 
 function updateStressLimit(stressLimit) {
+  const stressLimitModDiv = document.getElementById("stressLimitModDiv");
+  const stressLimitMod = parseInt(stressLimitModDiv.textContent);
+
   const stressLimitDiv = document.getElementById("stressLimitDiv");
-  stressLimitDiv.textContent = stressLimit;
+  stressLimitDiv.textContent = stressLimit + stressLimitMod;
 }
 
 export function updateEnergySpentTurn() {
@@ -38,9 +45,9 @@ export function calculateStrainedEnergy() {
   updateStrainedEnergyLevel(strainedEnergyLevel);
 }
 
-function updateStrainedEnergyLevel(newValue) {
-  const stressLimitDiv = document.getElementById("strainedEnergyDiv");
-  stressLimitDiv.textContent = newValue;
+export function updateStrainedEnergyLevel(strainedEnergy) {
+  const strainedEnergyDiv = document.getElementById("strainedEnergyDiv");
+  strainedEnergyDiv.textContent = strainedEnergy;
 }
 
 export function addToEnergySpentHistory(energySpent) {

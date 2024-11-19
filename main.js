@@ -1,26 +1,30 @@
 import { displayOutput } from "./utils.js";
 import {
-  getAndUpdateStressLimit,
+  calculateAndUpdateStressLimit,
   updateEnergySpentTurn,
   calculateStrainedEnergy,
   addToEnergySpentHistory,
   getEnergySpentHistory,
+  updateStrainedEnergyLevel,
 } from "./helpers/helper.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const button = document.getElementById("calculateButton");
-  button.addEventListener("click", calculate);
+  const resetStressLimitButton = document.getElementById(
+    "resetStressLimitButton"
+  );
+  resetStressLimitButton.addEventListener("click", resetStressLimit);
 
   const spendEnergyButton = document.getElementById("spendEnergyButton");
   spendEnergyButton.addEventListener("click", spendEnergy);
+
+  const nextTurnButton = document.getElementById("nextTurn");
+  nextTurnButton.addEventListener("click", doEndOfTurn);
 });
 
-function calculate() {
-  const result = `
-    Calculated stress Limit<br>
-  `;
-  displayOutput(result, "output");
-  getAndUpdateStressLimit();
+function resetStressLimit() {
+  const stressLimitModDiv = document.getElementById("stressLimitModDiv");
+  stressLimitModDiv.textContent = 0;
+  calculateAndUpdateStressLimit();
 }
 
 function spendEnergy() {
@@ -41,8 +45,6 @@ function spendEnergy() {
       "spendEnergyOutput"
     );
 
-    console.log(document.getElementById("undoEnergySpend"));
-
     // Create undo energy button if it does not exist
     if (!document.getElementById("undoEnergySpend")) {
       const undoEnergySpendButton = document.createElement("button");
@@ -55,7 +57,7 @@ function spendEnergy() {
     }
 
     // Update Stats
-    getAndUpdateStressLimit();
+    calculateAndUpdateStressLimit();
 
     addToEnergySpentHistory(spendEnergyInput);
     // uses energy spent history to calculate
@@ -74,8 +76,7 @@ function undoEnergySpend() {
   const energyUndidValue = energySpentHistory.pop();
   energySpentHistoryDiv.textContent = JSON.stringify(energySpentHistory);
 
-  console.log("energySpentHistory ", energySpentHistory);
-
+  // remove undo button if nothing to undo
   if (energySpentHistory && energySpentHistory.length == 0) {
     const undoEnergySpendButton = document.getElementById("undoEnergySpend");
     undoEnergySpendButton.remove();
@@ -102,4 +103,57 @@ function undoEnergySpend() {
   );
 
   calculateStrainedEnergy();
+}
+
+function doEndOfTurn() {
+  const energySpentHistory = getEnergySpentHistory();
+  const totalEnergySpent = energySpentHistory.reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+    0
+  );
+
+  const stressLimitDiv = document.getElementById("stressLimitDiv");
+  const stressLimit = stressLimitDiv.textContent;
+  const strainedEnergyDiv = document.getElementById("strainedEnergyDiv");
+  const strainedEnergy = strainedEnergyDiv.textContent;
+
+  // Updating Previous turn stats
+  const prevStressLimitDiv = document.getElementById("prevStressLimitDiv");
+  prevStressLimitDiv.textContent = stressLimit;
+  const prevEnergySpentTurnDiv = document.getElementById(
+    "prevEnergySpentTurnDiv"
+  );
+  prevEnergySpentTurnDiv.textContent = totalEnergySpent;
+
+  const prevEnergySpentHistoryDiv = document.getElementById(
+    "prevEnergySpentHistoryDiv"
+  );
+  prevEnergySpentHistoryDiv.textContent = JSON.stringify(energySpentHistory);
+
+  const prevStrainedEnergyDiv = document.getElementById(
+    "prevStrainedEnergyDiv"
+  );
+  prevStrainedEnergyDiv.textContent = strainedEnergy;
+
+  // Calculate stress limit mod
+  const proficiencyBonus =
+    parseFloat(document.getElementById("proficiencyBonus").value) || 0;
+
+  const decreaseStressLimit =
+    totalEnergySpent > Math.ceil(proficiencyBonus / 2);
+
+  const stressLimitModDiv = document.getElementById("stressLimitModDiv");
+  stressLimitModDiv.textContent = decreaseStressLimit ? -1 : 0;
+
+  // Zeroing out current stats
+  energySpentHistory.length = 0;
+  energySpentHistoryDiv.textContent = JSON.stringify(energySpentHistory);
+
+  displayOutput(``, "spendEnergyOutput");
+  const undoEnergySpendButton = document.getElementById("undoEnergySpend");
+  undoEnergySpendButton.remove();
+
+  updateEnergySpentTurn();
+  updateStrainedEnergyLevel(0);
+  calculateAndUpdateStressLimit();
 }
