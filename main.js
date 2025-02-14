@@ -6,6 +6,7 @@ import {
   addToEnergySpentHistory,
   getEnergySpentHistory,
   updateStrainedEnergyLevel,
+  calculateMaxStressLimit,
 } from "./helpers/helper.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -24,7 +25,15 @@ document.addEventListener("DOMContentLoaded", () => {
 function resetStressLimit() {
   const stressLimitModDiv = document.getElementById("stressLimitModDiv");
   stressLimitModDiv.textContent = 0;
-  calculateAndUpdateStressLimit();
+
+  let maxStressLimit = calculateMaxStressLimit();
+  const stressLimitMaxDiv = document.getElementById("stressLimitMaxDiv");
+  stressLimitMaxDiv.textContent = maxStressLimit;
+
+  const stressLimitCurrentDiv = document.getElementById(
+    "stressLimitCurrentDiv"
+  );
+  stressLimitCurrentDiv.textContent = maxStressLimit;
 }
 
 function spendEnergy() {
@@ -57,7 +66,15 @@ function spendEnergy() {
     }
 
     // Update Stats
-    calculateAndUpdateStressLimit();
+
+    const stressLimitCurrentDiv = document.getElementById(
+      "stressLimitCurrentDiv"
+    );
+    let currentStressLimit = parseInt(stressLimitCurrentDiv.textContent);
+    if (currentStressLimit !== currentStressLimit) {
+      // Only recalc on energy spend if currentStressLimit is NaN
+      calculateAndUpdateStressLimit();
+    }
 
     addToEnergySpentHistory(spendEnergyInput);
     // uses energy spent history to calculate
@@ -112,14 +129,16 @@ function doEndOfTurn() {
     0
   );
 
-  const stressLimitDiv = document.getElementById("stressLimitDiv");
-  const stressLimit = stressLimitDiv.textContent;
+  const stressLimitCurrentDiv = document.getElementById(
+    "stressLimitCurrentDiv"
+  );
+  const currentStressLimit = stressLimitCurrentDiv.textContent;
   const strainedEnergyDiv = document.getElementById("strainedEnergyDiv");
   const strainedEnergy = strainedEnergyDiv.textContent;
 
   // Updating Previous turn stats
   const prevStressLimitDiv = document.getElementById("prevStressLimitDiv");
-  prevStressLimitDiv.textContent = stressLimit;
+  prevStressLimitDiv.textContent = currentStressLimit;
   const prevEnergySpentTurnDiv = document.getElementById(
     "prevEnergySpentTurnDiv"
   );
