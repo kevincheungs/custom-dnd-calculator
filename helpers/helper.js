@@ -1,9 +1,12 @@
 export function calculateAndUpdateStressLimit() {
-  let stressLimit = calculateStressLimit();
-  updateStressLimit(stressLimit);
+  let maxStressLimit = calculateMaxStressLimit();
+  const stressLimitMaxDiv = document.getElementById("stressLimitMaxDiv");
+  stressLimitMaxDiv.textContent = maxStressLimit;
+
+  updateCurrentStressLimit(maxStressLimit);
 }
 
-export function calculateStressLimit() {
+export function calculateMaxStressLimit() {
   const spellcastingModifier =
     parseInt(document.getElementById("spellcastingModifier").value) || 0;
   const proficiencyBonus =
@@ -11,18 +14,23 @@ export function calculateStressLimit() {
   const constitutionModifier =
     parseInt(document.getElementById("constitutionModifier").value) || 0;
 
-  let stressLimit =
+  let maxStressLimit =
     1 + spellcastingModifier + constitutionModifier + proficiencyBonus;
 
-  return stressLimit;
+  return maxStressLimit;
 }
 
-function updateStressLimit(stressLimit) {
+function updateCurrentStressLimit(maxStressLimit) {
   const stressLimitModDiv = document.getElementById("stressLimitModDiv");
   const stressLimitMod = parseInt(stressLimitModDiv.textContent);
 
-  const stressLimitDiv = document.getElementById("stressLimitDiv");
-  stressLimitDiv.textContent = stressLimit + stressLimitMod;
+  const stressLimitCurrentDiv = document.getElementById(
+    "stressLimitCurrentDiv"
+  );
+  let currentStressLimit = parseInt(stressLimitCurrentDiv.textContent);
+  stressLimitCurrentDiv.textContent = !!currentStressLimit
+    ? currentStressLimit + stressLimitMod
+    : maxStressLimit;
 }
 
 export function updateEnergySpentTurn() {
@@ -37,11 +45,13 @@ export function updateEnergySpentTurn() {
 }
 
 export function calculateStrainedEnergy() {
-  const stressLimitDiv = document.getElementById("stressLimitDiv");
-  let stressLimit = parseInt(stressLimitDiv.textContent);
+  const stressLimitCurrentDiv = document.getElementById(
+    "stressLimitCurrentDiv"
+  );
+  let currentStressLimit = parseInt(stressLimitCurrentDiv.textContent);
   const energySpentTurnDiv = document.getElementById("energySpentTurnDiv");
   let currentEnergySpent = parseInt(energySpentTurnDiv.textContent);
-  const strainedEnergyLevel = currentEnergySpent - stressLimit;
+  const strainedEnergyLevel = currentEnergySpent - currentStressLimit;
   updateStrainedEnergyLevel(strainedEnergyLevel);
 }
 
